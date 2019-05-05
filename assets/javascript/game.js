@@ -1,47 +1,107 @@
-// start hangman game! 
+var alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 
-// list of different team nicknames for hangman game.
-var word = ['cavaliers', 'spartans', 'jayhawks', 'cardinals', 'wildcats', 'tarheels', 'bluedevils', 'buckeyes', 'tigers', 'crimsontide', 'bulldogs', 'gators', 'trojans', 'seminoles', 'hurricanes'];
+var nickNames = ["tarheels", "bluedevils", "wildcats", "cavaliers", "hurricanes", "crimsontide", "trojans", "longhorns", "tigers", "badgers", "seminoles", "wolfpack", "ducks", "gators", "sooners", "wolverines", "buckeyes", "volunteers", "bruins", "huskies"];
 
-//Choose word randomly
-var randNum = Math.floor(Math.random() * word.length);
-var choosenWord = word[randNum];
-var rightGuess = [];
-var wrongGuess = [];
-var underScore = [];
-console.log(choosenWord);
-//Dom manipulation
-domunderScore = document.getElementsByClassName('underScore');
-domrighGuess = document.getElementsByClassName('rightGuess');
-//Create underscores based on length of word
-generateunderScore = () => {
-    for (i = 0; i <choosenWord.length; i++) {
-        underScore.push('_');
-    }
-    return underScore;
+var gameStarted = false;
+var currentWord;
+var wordAsDashes;
+var guessesLeft;
+var lettersGuessed;
+var numWins = 0;
+var numLosses = 0;
+var getNewWord;
+var wordPlace; //place in nicknames array
+var correctGuesses;
+var wordAsArr = [];
+var dashesArray = [];
+
+function initialize() {
+    gameStarted = true;
+    lettersGuessed = [];
+    correctGuesses = 0;
+    wordPlace = Math.floor(Math.random() * 20);
+    currentWord = nickNames[wordPlace];			//string
+    guessesLeft = 17 - currentWord.length;		//longer words get less guesses
+    wordAsDashes = makeIntoDashes(currentWord);	//string of dashes
+    wordAsArr = currentWord.split('');			//array with letters
+    dashesArray = wordAsDashes.split('');		//array with dashes
+    document.getElementById("currentWord").innerHTML = wordAsDashes;
+    document.getElementById("lettersGuessed").innerHTML = "--";
+    document.getElementById("guessesLeft").innerHTML = guessesLeft;
 }
 
-console.log(generateunderScore());
-
-//Get users guess
-document.addEventListener('keypress', (event) => {
-    keyword = String.fromCharCode(event.keyCode);
-    //if Users guess is right
-    if(choosenWord.indexof(keyword) > -1){
-       //add to right words array
-       rightGuess.push(keyword);
-       //replace underscore with right letter
-       underScore[choosenWord.indexof(keyword)] = keyword;
-underScore[0].innerHTML = underScore.join('');
-       //checks to see if user word matches guesses
-       if(underScore.join('') == choosenWord){
-alert('You Win');
-       }
+// Make each word into underscores, visually like hangman
+function makeIntoDashes(word) {
+    var dashes = "";
+    for (i = 0; i < word.length - 1; i++) {
+        dashes += "_ ";
     }
+    dashes += "_";
+    return dashes;
+}
 
+// Main function that controls what to do with each keystroke
+function playGame(letter) {
+    var letter = letter.toLowerCase();
+
+    // Checks if key is a letter
+    if (alphabet.indexOf(letter) > -1) {
+        if (wordAsArr.indexOf(letter) > -1) {
+            correctGuesses++;
+            displayLetter(letter);
+        }
+        else {
+            if (lettersGuessed.indexOf(letter) > -1) {
+                return;
+            }
+            else {
+                guessesLeft--;
+                document.getElementById("guessesLeft").innerHTML = guessesLeft;
+                lettersGuessed.push(letter);
+                document.getElementById("lettersGuessed").innerHTML = lettersGuessed.join(' ');
+                if (guessesLeft == 0) {
+                    alert("Sorry! The correct answer is " + currentWord);
+                    initialize();
+                    numLosses++;
+                    document.getElementById("losses").innerHTML = numLosses;
+                }
+            }
+        }
+    }
+}
+
+// Displays letter if it's in word
+function displayLetter(letter) {
+    // for each char in wordAsDashes, if matches currentWord --> display
+    for (i = 0; i < currentWord.length; i++) {
+        if (letter == wordAsArr[i]) {
+            dashesArray[i * 2] = letter;
+            console.log(dashesArray);
+        }
+    }
+    document.getElementById("currentWord").innerHTML = dashesArray.join("");
+    checkForWin();
+}
+
+// Checks for win by looking for "_"
+function checkForWin() {
+    if (dashesArray.indexOf("_") === -1) {
+        alert("You got it! The correct answer is " + currentWord);
+        numWins++;
+        document.getElementById("wins").innerHTML = numWins;
+        initialize();
+    }
+}
+
+document.onkeyup = function (event) {
+    if (!gameStarted) {
+        document.getElementById("letsPlay").innerHTML = "";
+        initialize();
+        document.getElementById("currentWord").innerHTML = wordAsDashes.split(",");
+        console.log(currentWord);
+        gameStarted = true;
+    }
     else {
-        wrongGuess.push(keyword);
+        playGame(event.key);
     }
-    
-
-});
+}
