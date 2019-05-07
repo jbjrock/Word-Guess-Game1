@@ -20,11 +20,11 @@ function initialize() {
     lettersGuessed = [];
     correctGuesses = 0;
     wordPlace = Math.floor(Math.random() * 20);
-    currentWord = nickNames[wordPlace];			//string
-    guessesLeft = 17 - currentWord.length;		//longer words get less guesses
-    wordAsDashes = makeIntoDashes(currentWord);	//string of dashes
-    wordAsArr = currentWord.split('');			//array with letters
-    dashesArray = wordAsDashes.split('');		//array with dashes
+    currentWord = nickNames[wordPlace]; //string
+    guessesLeft = 17 - currentWord.length; //longer words get less guesses
+    wordAsDashes = makeIntoDashes(currentWord); //string of dashes
+    wordAsArr = currentWord.split(''); //array with letters
+    dashesArray = wordAsDashes.split(''); //array with dashes
     document.getElementById("currentWord").innerHTML = wordAsDashes;
     document.getElementById("lettersGuessed").innerHTML = "--";
     document.getElementById("guessesLeft").innerHTML = guessesLeft;
@@ -49,12 +49,10 @@ function playGame(letter) {
         if (wordAsArr.indexOf(letter) > -1) {
             correctGuesses++;
             displayLetter(letter);
-        }
-        else {
+        } else {
             if (lettersGuessed.indexOf(letter) > -1) {
                 return;
-            }
-            else {
+            } else {
                 guessesLeft--;
                 document.getElementById("guessesLeft").innerHTML = guessesLeft;
                 lettersGuessed.push(letter);
@@ -100,8 +98,7 @@ document.onkeyup = function (event) {
         document.getElementById("currentWord").innerHTML = wordAsDashes.split(",");
         console.log(currentWord);
         gameStarted = true;
-    }
-    else {
+    } else {
         playGame(event.key);
     }
 }

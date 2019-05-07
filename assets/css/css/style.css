@@ -8,6 +8,7 @@ h3 {
     font-size: 24px;
     text-align: center;
 }
+
 .jumbotron {
     background-color: black;
 }
@@ -19,6 +20,6 @@ h3 {
 
 .container {
     color: white;
-font-size: 24px;
+    font-size: 24px;
     text-align: center;
 }
