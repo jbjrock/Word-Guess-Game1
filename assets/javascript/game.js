@@ -97,7 +97,7 @@ document.onkeyup = function (event) {
         initialize();
         document.getElementById("currentWord").innerHTML = wordAsDashes.split(",");
         console.log(currentWord);
-        gameStarted = true;
+        
     } else {
         playGame(event.key);
     }
