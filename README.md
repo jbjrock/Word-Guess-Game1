@@ -5,7 +5,9 @@ https://jbjrock.github.io/Word-Guess-Game1/
 
 ## Technology
 JavaScript
+
 Bootstrap
+
 HTML/CSS
 
 This game uses onkeyup to determine your guessed letter. I noticed that this did not work on mobile devices since there was no textbox to trigger the mobile keyboard. To address this issue I have a textbox that is displayed on smaller screens using an @media query. Once the letter is captured, I clear the text-box. Press ESC to move to the next word. Thanks for playing, have fun!
@@ -15,11 +17,11 @@ This game uses onkeyup to determine your guessed letter. I noticed that this did
 
 In this assignment I created a Word Guess computer game better known as Hangman. This application will run in the browser, and feature dynamically updated HTML and CSS powered by my JavaScript code. 
 
-## Mission (Homework)
-## hangman
+## ```Mission (Homework)```
+## Hangman
 ## JavaScript Assignment
 
-## Overview
+## ```Overview```
 In this assignment, you'll create one of two possible computer games: Word Guess or Psychic. These apps will run in the browser, and feature dynamically updated HTML and CSS powered by your JavaScript code.
 
 Submission on BCS
